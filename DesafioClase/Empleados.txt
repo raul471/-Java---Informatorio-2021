@@ -1,0 +1,5 @@
+Carlos,Sanchez,20-01-1980,45678.08
+Roberto,Sanchez,20-01-1981,55678.08
+Juan,Sanchez,20-01-1979,35678.08
+Alberto,Sanchez,20-01-1982,85678.08
+Roxana,Sanchez,20-01-1983,95678.08
