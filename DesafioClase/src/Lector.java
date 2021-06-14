@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class Main {
+public class Lector {
 
-    private static Empleado[] listaDeEmpeleados;
 
     public static void main(String[] args) throws IOException {
         String path = "D:\\Escritorio\\Informatorio\\Desafios\\Empleados.txt";
@@ -26,31 +26,24 @@ public class Main {
             }
             for (Empleado emp : empleados) {
                 System.out.println(emp.nombre+" - "+emp.apellido+" - "+emp.nac+" - "+emp.sueldo);
-            }
+            } /*Muesta la lista completa*/
 
         }
-        /*List<Empleado> empiezaCon = filtroEmpleados(empleados, "R");
+        System.out.println("Ingresa la letra en Mayuscula con la que queres filtar: ");
+        Scanner scan = new Scanner(System.in) ;
+        String letra = scan.nextLine();
+        empleados.stream()
+                .filter(x -> x.nombre.startsWith(letra))
+                .collect(Collectors.toList()).forEach(System.out::println); /*Filtra los empleados con la letra ingresada*/
 
-        for (Empleado emp : empiezaCon) {
-            System.out.println(emp.nombre + " - " + emp.apellido + " - " + emp.nac + " - " + emp.sueldo);
-        }*/
+        System.out.println("Empleados mas Viejo y mas Joves: ");
+        filtroEdad(empleados);
+        System.out.println("Empleados que Gana y memos Gana: ");
+        filtroSueldo(empleados);
 
-        masJovenYViejo(empleados);
-        mayorYMenorSueldo(empleados);
+}
 
-    }
-
-    public static List<Empleado> filtroEmpleados(List<Empleado> listaDeEmpleados, String letraComienzo) {
-        List<Empleado> list= new ArrayList<>();
-        for (Empleado emp : listaDeEmpeleados) {
-            if (emp.apellido.startsWith(letraComienzo)) {
-                list.add(emp);
-            }
-        }
-        return list;
-    }
-
-    public static void masJovenYViejo(List<Empleado> listaDeEmpleados) {
+    public static void filtroEdad(List<Empleado> listaDeEmpleados) {
 
         Empleado masJoven = listaDeEmpleados
                 .stream()
@@ -67,7 +60,7 @@ public class Main {
 
     }
 
-    public static void mayorYMenorSueldo(List<Empleado> listaDeEmpleados) {
+    public static void filtroSueldo(List<Empleado> listaDeEmpleados) {
         Empleado mayorSueldo = listaDeEmpleados.stream().max(Comparator.comparing(Empleado::getSueldo)).orElseThrow(NoSuchElementException::new);
         Empleado menorSueldo = listaDeEmpleados.stream().min(Comparator.comparing(Empleado::getSueldo)).orElseThrow(NoSuchElementException::new);
 
@@ -91,8 +84,11 @@ class Empleado {
         this.nac = nac;
         this.sueldo = sueldo;
 
-
     }
+    public String toString(){
+        return this.nombre;
+    }
+
     public int getEdad() {
         int edad = LocalDate.now().getYear() - this.nac.getYear();
         return edad;
@@ -102,4 +98,5 @@ class Empleado {
         BigDecimal sueldo = this.sueldo;
         return sueldo;
     }
+
 }
